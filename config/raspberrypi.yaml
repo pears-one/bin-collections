@@ -1,0 +1,6 @@
+---
+app:
+  twilio:
+    account_sid: ACe2fadaf9aca87dbf493c17030295c47c
+    auth_token: da9f8df2b39b7bfec10b4a11967368d2
+    number: +12056971561
