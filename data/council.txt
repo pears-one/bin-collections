@@ -1,1 +1,0 @@
-"https://www.manchester.gov.uk/bincollections","{'User-Agent': 'Mozilla/5.0'}","{'mcc_bin_dates_uprn': house_id, 'mcc_bin_dates_submit': 'Go'}","div.collection","h3","p.caption","Next collection (.*)","%A %d %b %Y"

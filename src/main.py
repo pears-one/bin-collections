@@ -14,7 +14,7 @@ def main():
     alerts = manager.get_alerts()
     one_day = timedelta(0)
     alerts = AlertFilter(one_day).filter(alerts)
-    text_client = TextClient(TwilioConfig.from_file())
+    text_client = TextClient(TwilioConfig.from_env())
     messenger = AlertMessenger(alerts, text_client)
     messenger.send_messages()
 

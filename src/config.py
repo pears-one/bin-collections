@@ -1,5 +1,6 @@
-from collection.collection_scraper import CollectionScraperConfig
 import yaml
+import os
+
 
 class TwilioConfig:
     def __init__(self, account_sid: str, auth_token: str, number: str):
@@ -15,6 +16,14 @@ class TwilioConfig:
 
     def get_number(self):
         return self.__number
+
+    @staticmethod
+    def from_env():
+        return TwilioConfig(
+            os.environ["ACCOUNT_SID"],
+            os.environ["AUTH_TOKEN"],
+            os.environ["NUMBER"],
+        )
 
     @staticmethod
     def from_file():
