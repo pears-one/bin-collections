@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup
 import re
 from datetime import datetime
 from typing import List
+import sqlite3
+from query import get_council_by_uprn
+import json
 
 
 class CollectionScraperConfig:
@@ -58,17 +61,22 @@ class CollectionScraperConfig:
 
     @staticmethod
     def from_uprn(uprn: str):
-        return CollectionScraperConfig(
-            request_url='https://www.manchester.gov.uk/bincollections',
-            request_headers={'User-Agent': 'Mozilla/5.0'},
-            request_body={'mcc_bin_dates_uprn': uprn, 'mcc_bin_dates_submit': 'Go'},
-            container_selector="div.collection",
-            bin_type_selector="h3",
-            bin_type_regex="(.+) Bin",
-            date_selector="p.caption",
-            date_regex="Next collection (.*)",
-            date_format='%A %d %b %Y',
+        conn = sqlite3.connect('data/bin_collections.db')
+        c = conn.cursor()
+        c.execute(get_council_by_uprn, (uprn,))
+        r = c.fetchone()
+        conf = CollectionScraperConfig(
+            r[0],
+            json.loads(r[1].replace("@@UPRN@@", uprn)),
+            json.loads(r[2].replace("@@UPRN@@", uprn)),
+            r[3],
+            r[4],
+            r[5],
+            r[6],
+            r[7],
+            r[8]
         )
+        return conf
 
 
 class CollectionScraper:

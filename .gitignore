@@ -139,5 +139,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-bin_collections.db
+data/bin_collections.db
 *_data.sql

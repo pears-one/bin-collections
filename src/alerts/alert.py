@@ -14,4 +14,4 @@ class Alert:
         return self.__bin_day.get_collection_date()
 
     def get_message(self):
-        return f"Hi {self.get_person().get_name()}, please take out {', '.join(self.__bin_day.get_bin_types())} bins on {self.get_date()}"
+        return f"Hi {self.get_person().get_name()}, the {', '.join(self.__bin_day.get_bin_types())} bins are getting collected on {self.get_date()}"
