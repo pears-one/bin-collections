@@ -9,6 +9,8 @@ class PersonRepository:
         self.__repo_name = repo_name
 
     def get_people(self) -> List[Person]:
-        conn = sqlite3.connect('data/bin_collections.db')
+        conn = sqlite3.connect(self.__repo_name)
         c = conn.cursor()
-        return [Person(*row) for row in c.execute(get_people_statement)]
+        people = [Person(*row) for row in c.execute(get_people_statement)]
+        c.close()
+        return people

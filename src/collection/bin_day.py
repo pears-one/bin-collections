@@ -27,4 +27,4 @@ class BinDay:
     @staticmethod
     def get_next_from_collections(collections: List[Collection]) -> 'BinDay':
         bin_days = BinDay.get_all_from_collection(collections)
-        return sorted(bin_days, key=lambda c: c.get_collection_date())[0]
+        return sorted(bin_days, key=lambda c: c.__get_collection_date())[0]

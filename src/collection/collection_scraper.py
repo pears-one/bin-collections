@@ -83,7 +83,7 @@ class CollectionScraper:
     def __init__(self, config: CollectionScraperConfig):
         self.__config = config
 
-    def send_request(self) -> requests.Response:
+    def __send_request(self) -> requests.Response:
         session = requests.Session()
         return session.post(
             self.__config.get_url(),
@@ -91,26 +91,26 @@ class CollectionScraper:
             data=self.__config.get_body()
         )
 
-    def get_bin_collection_containers(self):
-        response = self.send_request()
+    def __get_bin_collection_containers(self):
+        response = self.__send_request()
         soup = BeautifulSoup(response.text, 'html.parser')
         return soup.select(self.__config.get_container_selector())
 
-    def get_bin_type(self, bin_collection_container):
+    def __get_bin_type(self, bin_collection_container):
         bin_type_text = bin_collection_container.select(self.__config.get_bin_type_selector())[0].text
         bin_type_match = re.match(self.__config.get_bin_type_regex(), bin_type_text)
         return bin_type_match.group(1)
 
-    def get_collection_date(self, bin_collection_container) -> datetime.date:
+    def __get_collection_date(self, bin_collection_container) -> datetime.date:
         next_date_string = bin_collection_container.select(self.__config.get_date_selector())[0].text
         date_regex_match = re.match(self.__config.get_date_regex(), next_date_string)
         return datetime.strptime(date_regex_match.group(1), self.__config.get_date_format()).date()
 
     def get_bin_collections(self) -> List[Collection]:
         collections = []
-        containers = self.get_bin_collection_containers()
+        containers = self.__get_bin_collection_containers()
         for container in containers:
-            bin_type = self.get_bin_type(container)
-            collection_date = self.get_collection_date(container)
+            bin_type = self.__get_bin_type(container)
+            collection_date = self.__get_collection_date(container)
             collections.append(Collection(bin_type, collection_date))
         return collections
