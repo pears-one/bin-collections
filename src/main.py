@@ -9,10 +9,10 @@ from messaging.text_client import TextClient
 
 
 def main():
-    person_repo = PersonRepository('data/alertees.txt')
+    person_repo = PersonRepository('data/bin_collections.db')
     manager = AlertManager(person_repo)
     alerts = manager.get_alerts()
-    notice_in_days = timedelta(5)
+    notice_in_days = timedelta(1)
     alerts = AlertFilter(notice_in_days).filter(alerts)
     text_client = TextClient(TwilioConfig.from_env())
     messenger = AlertMessenger(alerts, text_client)
