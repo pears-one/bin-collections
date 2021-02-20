@@ -1,4 +1,5 @@
 from datetime import timedelta
+import sys
 
 from alerts.alert_manager import AlertManager
 from people.person_repository import PersonRepository
@@ -9,6 +10,8 @@ from messaging.text_client import TextClient
 
 
 def main():
+    sys.stdout = open("stout.txt", 'w')
+    sys.stderr = open("sterr.txt", 'w')
     person_repo = PersonRepository('data/bin_collections.db')
     manager = AlertManager(person_repo)
     alerts = manager.get_alerts()

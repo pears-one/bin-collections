@@ -141,3 +141,6 @@ cython_debug/
 
 data/bin_collections.db
 *_data.sql
+
+sterr.txt
+stout.txt
