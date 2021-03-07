@@ -20,7 +20,7 @@ def main(dev: bool):
     text_client = client_type(TwilioConfig.from_env())
     manager = AlertManager(property_repo, person_repo, text_client)
     alerts = manager.get_alerts()
-    notice_in_days = timedelta(4)
+    notice_in_days = timedelta(int(os.environ['DELAY_IN_DAYS']))
     alerts = AlertFilter(notice_in_days).filter(alerts)
     manager.send_messages(alerts)
 
