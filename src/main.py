@@ -27,4 +27,4 @@ def main(dev: bool):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    main(args[0] == "dev")
+    main(len(args) > 0 and args[0] == "dev")
