@@ -1,26 +1,30 @@
 from datetime import timedelta
 import sys
+import os
 
 from alerts.alert_manager import AlertManager
-from people.person_repository import PersonRepository
-from alerts.alert_messenger import AlertMessenger
+from repository.person import PersonRepository
+from repository.property import PropertyRepository
 from alerts.alert_filter import AlertFilter
 from config import TwilioConfig
-from messaging.text_client import TextClient
+from messaging.text_client import TextClient, FakeClient
 
 
-def main():
-    sys.stdout = open("stout.txt", 'w')
-    sys.stderr = open("sterr.txt", 'w')
-    person_repo = PersonRepository('data/bin_collections.db')
-    manager = AlertManager(person_repo)
+def main(dev: bool):
+    if not dev:
+        sys.stdout = open("stout.txt", 'w')
+        sys.stderr = open("sterr.txt", 'w')
+    person_repo = PersonRepository(os.environ['DB_ADDRESS'])
+    property_repo = PropertyRepository(os.environ['DB_ADDRESS'])
+    client_type = FakeClient if dev else TextClient
+    text_client = client_type(TwilioConfig.from_env())
+    manager = AlertManager(property_repo, person_repo, text_client)
     alerts = manager.get_alerts()
-    notice_in_days = timedelta(1)
+    notice_in_days = timedelta(4)
     alerts = AlertFilter(notice_in_days).filter(alerts)
-    text_client = TextClient(TwilioConfig.from_env())
-    messenger = AlertMessenger(alerts, text_client)
-    messenger.send_messages()
+    manager.send_messages(alerts)
 
 
 if __name__ == "__main__":
-    main()
+    args = sys.argv[1:]
+    main(args[0] == "dev")

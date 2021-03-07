@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS property (
     uprn varchar(12),
     postcode varchar(8),
     house_number varchar(4),
-    street_name varchar(32)
+    street_name varchar(32),
+    PRIMARY KEY (uprn)
 );
 
 CREATE table IF NOT EXISTS residency (
@@ -23,18 +24,8 @@ CREATE table IF NOT EXISTS residency (
 CREATE TABLE IF NOT EXISTS council (
     url varchar(64),
     name varchar(64),
-    body_type varchar(16),
-    body varchar(256),
-    headers varchar(256),
-    container_selector varchar(64),
-    bin_type_selector varchar(64),
-    bin_type_regex varchar(64),
-    date_selector varchar(64),
-    date_regex varchar(64),
-    date_format varchar(32),
     PRIMARY KEY (url)
 );
-
 
 CREATE TABLE IF NOT EXISTS council_by_postcode (
     postcode varchar(8),

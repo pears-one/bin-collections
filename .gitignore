@@ -144,3 +144,4 @@ data/bin_collections.db
 
 sterr.txt
 stout.txt
+deploy.sh

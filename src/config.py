@@ -1,4 +1,3 @@
-import yaml
 import os
 
 
@@ -25,13 +24,3 @@ class TwilioConfig:
             os.environ["NUMBER"],
         )
 
-    @staticmethod
-    def from_file():
-        file_path = "config/raspberrypi.yaml"
-        with open(file_path) as file:
-            twilio_config = yaml.load(file, Loader=yaml.FullLoader)["app"]["twilio"]
-        return TwilioConfig(
-            twilio_config["account_sid"],
-            twilio_config["auth_token"],
-            twilio_config["number"]
-        )
