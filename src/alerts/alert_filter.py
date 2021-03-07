@@ -1,5 +1,5 @@
 from datetime import timedelta, datetime
-from alerts.alert import Alert
+from model.alert import Alert
 from typing import List
 
 
