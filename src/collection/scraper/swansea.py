@@ -42,10 +42,11 @@ class SwanseaScraper(CollectionScraper):
     def __get_collections_in_month(self, month) -> List[Collection]:
         month_name = ' ' + month.find('b').text
         collections = []
-        for bg_colour, week in self.weeks_by_bg_colour:
-            dates = [datetime.strptime(d.text + month_name, '%d %B %Y') for d in month.find_all('td', attrs={'bgcolor': bg_colour})]
+        for bg_colour, week in self.weeks_by_bg_colour.items():
+            dates = [datetime.strptime(d.text + month_name, '%d %B %Y').date() for d in month.find_all('td', attrs={'bgcolor': bg_colour})]
             for d in dates:
                 collections += [Collection(t, d) for t in week.get_bins()]
+        return collections
 
     def get_collections(self, prop: Property) -> List[Collection]:
         resp = self.__send_request(prop)
