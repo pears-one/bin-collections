@@ -3,6 +3,7 @@ import re
 from datetime import datetime
 from typing import List
 from collection import Collection
+from model.property import Property
 from collection.scraper import CollectionScraper
 from bs4 import BeautifulSoup
 
@@ -21,9 +22,9 @@ class CamdenScraper(CollectionScraper):
         next_date_string = date_container.text.strip()
         return datetime.strptime(next_date_string, '%d/%m/%Y').date()
 
-    def get_collections(self, uprn: str) -> List[Collection]:
+    def get_collections(self, prop: Property) -> List[Collection]:
         collections = []
-        url = f'https://environmentservices.camden.gov.uk/property/{uprn}'
+        url = f'https://environmentservices.camden.gov.uk/property/{prop.get_uprn()}'
         session = requests.Session()
         resp = session.get(
             url

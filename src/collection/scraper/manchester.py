@@ -4,6 +4,7 @@ from datetime import datetime
 from collection import Collection
 from typing import List
 from collection.scraper import CollectionScraper
+from model.property import Property
 from bs4 import BeautifulSoup
 
 
@@ -20,11 +21,11 @@ class ManchesterScraper(CollectionScraper):
         date_regex_match = re.match('Next collection (.*)', next_date_string)
         return datetime.strptime(date_regex_match.group(1), '%A %d %b %Y').date()
 
-    def get_collections(self, uprn: str) -> List[Collection]:
+    def get_collections(self, prop: Property) -> List[Collection]:
         collections = []
         url = 'https://www.manchester.gov.uk/bincollections'
         body = {
-            "mcc_bin_dates_uprn": uprn,
+            "mcc_bin_dates_uprn": prop.get_uprn(),
             "mcc_bin_dates_submit": "Go"
         }
         session = requests.Session()

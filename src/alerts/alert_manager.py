@@ -33,7 +33,7 @@ class AlertManager:
 
     def __get_collections(self, prop: Property):
         scraper = Factory.new_scraper(prop.get_council())
-        return scraper.get_collections(prop.get_uprn())
+        return scraper.get_collections(prop)
 
     def __get_next_bin_day(self, prop: Property):
         return BinDay.get_next_from_collections(self.__get_collections(prop))
