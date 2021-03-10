@@ -18,7 +18,9 @@ class Alert:
     def get_message(self):
         bins = self.__bin_day.get_bin_types()
         date_string = self.__format_date(self.get_date())
-        return f"Hi {self.get_person().get_name()}, the {self.__nice_join(bins)} bins are getting collected on {date_string}."
+        msg = f"Hi {self.get_person().get_name()}, "
+        msg += f"the {self.__nice_join(bins)} bins are getting collected on {date_string}."
+        return msg
 
     @staticmethod
     def __nice_join(things: List[str]) -> str:
