@@ -10,13 +10,14 @@ from config import TwilioConfig
 from messaging.text_client import TextClient, FakeClient
 
 
-def main(dev: bool):
-    if not dev:
+def main(live: bool):
+    client_type = FakeClient
+    if live:
+        client_type = TextClient
         sys.stdout = open("stout.txt", 'w')
         sys.stderr = open("sterr.txt", 'w')
     person_repo = PersonRepository(os.environ['DB_ADDRESS'])
     property_repo = PropertyRepository(os.environ['DB_ADDRESS'])
-    client_type = FakeClient if dev else TextClient
     text_client = client_type(TwilioConfig.from_env())
     manager = AlertManager(property_repo, person_repo, text_client)
     alerts = manager.get_alerts()
@@ -27,4 +28,4 @@ def main(dev: bool):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    main(len(args) > 0 and args[0] == "dev")
+    main(len(args) > 0 and args[0] == "live")
