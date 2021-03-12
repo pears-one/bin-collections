@@ -1,4 +1,5 @@
 USAGE='./$0 [live] [DELAY_IN_DAYS]'
+LIVE_BRANCH="live"
 
 function check_variable {
   var_name=$1
@@ -55,7 +56,8 @@ check_variable DB_ADDRESS
 MODE="dev"
 process_arguments $@
 
+git checkout $LIVE_BRANCH
 export PYTHONPATH=src:$PYTHONPATH
-pip3 install -r requirements.txt
+pip3 install -r requirements.txt > /dev/null
 python3 src/main.py $MODE
 deactivate
