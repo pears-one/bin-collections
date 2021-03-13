@@ -14,7 +14,7 @@ class CamdenScraper(CollectionScraper):
     def __get_bin_type(bin_collection_container):
         bin_type_text = bin_collection_container.find('h3').text
         bin_type_match = re.match('Domestic (.+) collection', bin_type_text)
-        return bin_type_match.group(2)
+        return bin_type_match.group(1)
 
     @staticmethod
     def __get_collection_date(bin_collection_container) -> datetime.date:
