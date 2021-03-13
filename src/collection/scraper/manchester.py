@@ -3,9 +3,10 @@ import re
 from datetime import datetime
 from collection import Collection
 from typing import List
-from collection.scraper import CollectionScraper
+from collection.scraper.scraper import CollectionScraper
 from model.property import Property
 from bs4 import BeautifulSoup
+import logging
 
 
 class ManchesterScraper(CollectionScraper):
@@ -36,7 +37,10 @@ class ManchesterScraper(CollectionScraper):
         soup = BeautifulSoup(resp.text, 'html.parser')
         containers = soup.select('div.collection')
         for container in containers:
-            bin_type = self.__get_bin_type(container)
-            collection_date = self.__get_collection_date(container)
-            collections.append(Collection(bin_type, collection_date))
+            try:
+                bin_type = self.__get_bin_type(container)
+                collection_date = self.__get_collection_date(container)
+                collections.append(Collection(bin_type, collection_date))
+            except Exception as e:
+                logging.error(f"failed to parse container for property: {prop.get_uprn()} at {url}: {e}")
         return collections

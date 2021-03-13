@@ -1,11 +1,12 @@
 import requests
-import re
 from datetime import datetime
 from collection import Collection
 from typing import List
-from collection.scraper import CollectionScraper
+from collection.scraper.scraper import CollectionScraper
 from model.property import Property
 from bs4 import BeautifulSoup
+import logging
+
 
 class Week:
     def __init__(self, colour: str, bins: List[str]):
@@ -49,10 +50,17 @@ class SwanseaScraper(CollectionScraper):
         return collections
 
     def get_collections(self, prop: Property) -> List[Collection]:
-        resp = self.__send_request(prop)
+        collections = []
+        try:
+            resp = self.__send_request(prop)
+        except Exception as e:
+            logging.error(f"failed to send request for property {str(prop)}: {e}")
+            return collections
         soup = BeautifulSoup(resp.text, 'html.parser')
         months = soup.find_all('table', attrs={'title': 'Calendar'})
-        collections = []
         for month in months[:2]:
-            collections += self.__get_collections_in_month(month)
+            try:
+                collections += self.__get_collections_in_month(month)
+            except Exception as e:
+                logging.warning(f"failed to get collections for {month.find('b').text} for property {str(prop)}")
         return collections

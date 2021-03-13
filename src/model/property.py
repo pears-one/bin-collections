@@ -20,3 +20,6 @@ class Property:
 
     def get_council(self):
         return self.__council
+
+    def __str__(self):
+        return f"{self.__uprn}: {self.__house_number} {self.__street_name}, {self.__postcode}, {self.__council}"

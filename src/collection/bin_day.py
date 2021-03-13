@@ -23,8 +23,3 @@ class BinDay:
             else:
                 bin_types_by_date[collection.get_date()].append(collection.get_bin_type())
         return [cls(bin_date, bin_types) for bin_date, bin_types in bin_types_by_date.items()]
-
-    @staticmethod
-    def get_next_from_collections(collections: List[Collection]) -> 'BinDay':
-        bin_days = BinDay.get_all_from_collection(collections)
-        return min(bin_days, key=lambda c: c.get_collection_date())

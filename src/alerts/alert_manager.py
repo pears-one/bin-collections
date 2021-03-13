@@ -1,6 +1,6 @@
 from repository.property import PropertyRepository
 from repository.person import PersonRepository
-from collection.scraper import Factory
+from collection.scraper.factory import Factory
 from model.property import Property
 from model.alert import Alert
 from collection.bin_day import BinDay
@@ -21,8 +21,9 @@ class AlertManager:
     def get_alerts(self):
         properties = self.__property_repository.get_properties()
         alerts = [
-            Alert(res, self.__get_next_bin_day(prop))
+            Alert(res, bin_day)
             for prop in properties
+            for bin_day in self.__get_bin_days(prop)
             for res in self.__get_residents(prop.get_uprn())
         ]
         return alerts
@@ -35,8 +36,8 @@ class AlertManager:
         scraper = Factory.new_scraper(prop.get_council())
         return scraper.get_collections(prop)
 
-    def __get_next_bin_day(self, prop: Property):
-        return BinDay.get_next_from_collections(self.__get_collections(prop))
+    def __get_bin_days(self, prop: Property):
+        return BinDay.get_all_from_collection(self.__get_collections(prop))
 
     def send_messages(self, alerts):
         for alert in alerts:

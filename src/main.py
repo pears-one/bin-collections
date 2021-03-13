@@ -8,14 +8,12 @@ from repository.property import PropertyRepository
 from alerts.alert_filter import AlertFilter
 from config import TwilioConfig
 from messaging.text_client import TextClient, FakeClient
+import logs
 
 
 def main(live: bool):
-    client_type = FakeClient
-    if live:
-        client_type = TextClient
-        sys.stdout = open("stout.txt", 'w')
-        sys.stderr = open("sterr.txt", 'w')
+    logs.init()
+    client_type = TextClient if live else FakeClient
     person_repo = PersonRepository(os.environ['DB_ADDRESS'])
     property_repo = PropertyRepository(os.environ['DB_ADDRESS'])
     text_client = client_type(TwilioConfig.from_env())
