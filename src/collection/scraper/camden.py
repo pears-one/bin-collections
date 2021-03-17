@@ -28,7 +28,8 @@ class CamdenScraper(CollectionScraper):
         url = f'https://environmentservices.camden.gov.uk/property/{prop.get_uprn()}'
         session = requests.Session()
         resp = session.get(
-            url
+            url,
+            timeout=10
         )
         soup = BeautifulSoup(resp.text, 'html.parser')
         containers = soup.select('div.service-wrapper')

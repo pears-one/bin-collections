@@ -4,6 +4,7 @@ from collection.scraper.factory import Factory
 from model.property import Property
 from model.alert import Alert
 from collection.bin_day import BinDay
+import logging
 from messaging.text_client import TextClient
 
 
@@ -20,13 +21,22 @@ class AlertManager:
 
     def get_alerts(self):
         properties = self.__property_repository.get_properties()
-        alerts = [
+        alerts = []
+        for prop in properties:
+            try:
+                alerts_for_prop = self.__get_alerts_for_property(prop)
+                logging.info(f"{len(alerts_for_prop)} alerts found for {prop}")
+                alerts += alerts_for_prop
+            except Exception as e:
+                logging.error(e)
+        return alerts
+
+    def __get_alerts_for_property(self, prop: Property):
+        return [
             Alert(res, bin_day)
-            for prop in properties
             for bin_day in self.__get_bin_days(prop)
             for res in self.__get_residents(prop.get_uprn())
         ]
-        return alerts
 
     def __get_residents(self, uprn: str):
         residents = self.__person_repository.get_residents(uprn)

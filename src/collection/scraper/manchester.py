@@ -32,7 +32,8 @@ class ManchesterScraper(CollectionScraper):
         session = requests.Session()
         resp = session.post(
             url,
-            data=body
+            data=body,
+            timeout=10
         )
         soup = BeautifulSoup(resp.text, 'html.parser')
         containers = soup.select('div.collection')

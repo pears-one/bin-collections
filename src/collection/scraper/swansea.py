@@ -30,14 +30,16 @@ class SwanseaScraper(CollectionScraper):
         url = "http://www1.swansea.gov.uk/recyclingsearch/?lang=eng"
         session = requests.Session()
         resp = session.get(
-            url
+            url,
+            timeout=10
         )
         soup = BeautifulSoup(resp.text, 'html.parser')
         form = {a['name']: a['value'] if 'value' in a.attrs else '' for a in soup.find_all('input')}
         form['txtPostCode'] = prop.get_postcode()
         return session.post(
             url,
-            data=form
+            data=form,
+            timeout=10
         )
 
     def __get_collections_in_month(self, month) -> List[Collection]:
