@@ -1,5 +1,4 @@
 USAGE='./$0 [live] [DELAY_IN_DAYS]'
-LIVE_BRANCH="live"
 
 function check_variable {
   var_name=$1
@@ -55,6 +54,8 @@ check_variable DB_ADDRESS
 
 MODE="dev"
 process_arguments $@
+
+./pull.sh
 
 git checkout $LIVE_BRANCH
 export PYTHONPATH=src:$PYTHONPATH
