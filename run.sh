@@ -57,7 +57,6 @@ process_arguments $@
 
 ./pull.sh
 
-git checkout $LIVE_BRANCH
 export PYTHONPATH=src:$PYTHONPATH
 pip3 install -r requirements.txt > /dev/null
 python3 src/main.py $MODE

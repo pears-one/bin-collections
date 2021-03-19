@@ -12,7 +12,7 @@ import logs
 
 
 def main(live: bool):
-    logs.init()
+    logs.init(live)
     client_type = TextClient if live else FakeClient
     person_repo = PersonRepository(os.environ['DB_ADDRESS'])
     property_repo = PropertyRepository(os.environ['DB_ADDRESS'])
