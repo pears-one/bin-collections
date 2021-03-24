@@ -24,7 +24,7 @@ class Alert:
 
     @staticmethod
     def __nice_join(things: List[str]) -> str:
-        return ' and '.join([', '.join([c for c in things[:-1]]), things[-1]])
+        return things[0] if len(things) == 1 else ' and '.join([', '.join([c for c in things[:-1]]), things[-1]])
 
     @staticmethod
     def __format_date(d: date) -> str:
