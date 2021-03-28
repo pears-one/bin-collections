@@ -4,21 +4,43 @@ from collection.bin_day import BinDay
 from typing import List
 
 
+class AlertError(Exception):
+    def __init__(self, message: str, uprn: str, bins: List[str], collection_date: date):
+        self.message = message
+        self.bins = bins
+        self.uprn = uprn
+        self.collection_date = collection_date
+
+    def __str__(self):
+        return f"{self.message}: {self.bins} bins at {self.uprn} on {self.collection_date}"
+
+
 class Alert:
     def __init__(self, person: Person, bin_day: BinDay):
         self.__person = person
         self.__bin_day = bin_day
 
-    def get_person(self):
-        return self.__person
+    def get_name(self):
+        return self.__person.get_name()
+
+    def get_uprn(self):
+        return self.__person.get_uprn()
 
     def get_date(self):
         return self.__bin_day.get_collection_date()
 
+    def get_bins(self):
+        return self.__bin_day.get_bin_types()
+
     def get_message(self):
-        bins = self.__bin_day.get_bin_types()
-        date_string = self.__format_date(self.get_date())
-        msg = f"Hi {self.get_person().get_name()}, "
+        bins = self.get_bins()
+        if len(bins) < 1:
+            raise AlertError("no bin types found in the bin day", self.get_uprn(), self.get_bins(), self.get_date())
+        collection_date = self.get_date()
+        if collection_date < date.today():
+            raise AlertError("collection date is in the past", self.get_uprn(), self.get_bins(), self.get_date())
+        date_string = self.__format_date(collection_date)
+        msg = f"Hi {self.get_name()}, "
         msg += f"the {self.__nice_join(bins)} bins are getting collected on {date_string}."
         return msg
 
