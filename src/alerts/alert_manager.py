@@ -4,6 +4,7 @@ from collection.scraper.factory import Factory
 from model.property import Property
 from model.alert import Alert
 from collection.bin_day import BinDay
+from typing import List
 import logging
 from messaging.text_client import TextClient
 
@@ -49,6 +50,6 @@ class AlertManager:
     def __get_bin_days(self, prop: Property):
         return BinDay.get_all_from_collection(self.__get_collections(prop))
 
-    def send_messages(self, alerts):
+    def send_messages(self, alerts: List[Alert]):
         for alert in alerts:
-            self.__message_client.send_message(alert.get_message(), alert.get_person().get_number())
+            self.__message_client.send_message(alert.get_message(), alert.get_number())

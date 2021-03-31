@@ -48,3 +48,4 @@ This service has been written with extensibility in mind, so adding new councils
 
 - Unit testing
 - Asynchronous requests
+- Run tests in deploy script

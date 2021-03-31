@@ -26,6 +26,9 @@ class Alert:
     def get_uprn(self):
         return self.__person.get_uprn()
 
+    def get_number(self):
+        return self.__person.get_number()
+
     def get_date(self):
         return self.__bin_day.get_collection_date()
 
