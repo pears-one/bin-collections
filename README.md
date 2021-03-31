@@ -24,7 +24,7 @@ A number of environment variables are needed to run this script.
 - `DB_ADDRESS` path to the Sqlite3 db file
 - `LOG_FILE` output log file
 
-### Testing
+### Test mode
 
 To run the service in test mode you can use the shell script provided.
 
@@ -43,3 +43,8 @@ This will run the service in the same way - but texts will be sent out to the re
 ## Adding Extensions
 
 This service has been written with extensibility in mind, so adding new councils should be very simple. See the `CollectionScraper` class to understand what interfaces should be followed.
+
+## TODO
+
+- Unit testing
+- Asynchronous requests
