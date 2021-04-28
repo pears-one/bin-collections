@@ -29,7 +29,7 @@ class CamdenScraper(CollectionScraper):
         session = requests.Session()
         resp = session.get(
             url,
-            timeout=30
+            timeout=40
         )
         soup = BeautifulSoup(resp.text, 'html.parser')
         containers = soup.select('div.service-wrapper')
