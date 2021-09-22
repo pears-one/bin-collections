@@ -19,7 +19,6 @@ class CamdenScraper(CollectionScraper):
     @staticmethod
     def __get_collection_date(bin_collection_container) -> datetime.date:
         date_container = bin_collection_container.select('td.next-service')[0]
-        date_container.span.extract()
         next_date_string = date_container.text.strip()
         return datetime.strptime(next_date_string, '%d/%m/%Y').date()
 
